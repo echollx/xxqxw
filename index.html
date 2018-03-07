@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>首页</title>
+	<link rel="stylesheet" href="css/header.css" />
+	<link rel="stylesheet" href="css/index.css" />
+	
+</head>
+<body>
+	<script src="js/tools.js"></script>
+	<!--<script type="text/javascript" src="lib/jquery/jquery-1.12.4.min.js" ></script>-->
+	<script>
+			//获取所有待轮播图片的盒子
+			var lis = $("li",$(".imgs")[0]),
+				len = lis.length,//（图片的张数，小圆的个数）数组的长度
+				currentIndex = 0,//现在显示图片的下标
+				nextIndex = 1,//即将显示图片的下标
+				circles = $("i",$(".pages")[0]);//小圆
+				duration = 3000;//轮播图自动切换的间隔时间 
+			//定义函数实现轮播图切换
+			var move = function(){
+			
+				// 当前显示出来的图片淡出
+				fadeOut(lis[currentIndex], 200);
+				// 即将显示出来的图片淡入
+				fadeIn(lis[nextIndex], 200);
+				// 小圆点样式处理
+				circles[currentIndex].className = "";
+				circles[nextIndex].className = "current";
+	
+				// 修改索引
+				currentIndex = nextIndex;
+				nextIndex++;
+				if (nextIndex >= len)
+					nextIndex = 0;
+		
+			}
+			//图片每隔三秒运动一次
+			var timer = setInterval(move,duration);
+			//鼠标移入停止运动
+			$("#container").onmouseenter = function(){
+				clearInterval(timer);
+			}
+			//鼠标移除运动继续开始
+			$("#container").onmouseleaver = function(){
+				timer = setInterval(move,duration);
+			}
+			//绑定小圆点鼠标移入事件
+			//需要查找鼠标移入小圆点在所有小圆点中的索引
+			// 绑定小圆点鼠标移入事件
+			for (let i = 0; i < len; i++) {
+				circles[i].onmouseenter = function(){
+					if (currentIndex === i)
+						return;
+					nextIndex = i;
+					move();
+				}
+			}
+			//向前翻页
+			$(".prev")[0].onclick = function(){
+				//现在图片下标的索引 - 1；
+				nextIndex = currentIndex - 1;
+				if(nextIndex < 0){
+					//第一张图片的下标等于（图片的张数 - 1）
+					nextIndex = len - 1;
+					move();
+				}
+			}
+			//向后翻页
+			//$(".next")[0].onclick = function(){}
+			$(".next")[0].onclick = move;
+	</script>
+	
+	<header>
+		<img src="imgaes/logo.png"/>
+		<ul class="ul1">
+			<li><a href="#">X-KICKS资讯</a></li>
+			<li><a href="#">X-KICKS社区</a></li>
+			<li><a href="#">X-KICKS APP</a></li>
+		</ul>
+		<ul class="ul2">
+			<li><a href="#">登录</a></li>
+			<li class="li2"><a href="#">注册</a></li>
+			<li class="li3"><a href="#">订单</a></li>
+			<li class="li3"><a href="#">收藏</a></li>
+			<li class="li3"><a href="#">帮助中心</a></li>
+			<li class="li3"><a href="#">收藏新新</a></li>
+			<li class="li4">400-881-9878</li>
+		</ul>
+	</header>
+	<div class="nav">
+		<div class="nav_top">
+			<img src="imgaes/nav_logo.png"/>
+			<div class="seach">
+				<input type="text" id="word">
+				<div id="info"></div>
+				<div id="btn">搜索</div>
+			</div>
+			<div class="add_to_cart">
+				<a href="#"><p style="font-size: 12px;color: black;margin-left: 26px;">我的购物车(<span style="color: red;">0</span>)</p></a>
+				
+			</div>
+		</div>
+		<div class="nav_bottom">
+			<ul>
+				<li><a href="#">首页</a></li>
+					<img src="imgaes/nav_bottom_fg.png" />
+				<li><a href="#">最新上架</a></li>
+					<img src="imgaes/nav_bottom_fg.png" />
+				<li><a href="#">男鞋</a></li>
+					<img src="imgaes/nav_bottom_fg.png" />
+				<li><a href="#">女鞋</a></li>
+					<img src="imgaes/nav_bottom_fg.png" />
+				<li><a href="#">潮流鞋</a></li>
+					<img src="imgaes/nav_bottom_fg.png" />
+				<li><a href="#">服饰配件</a></li>
+					<img src="imgaes/nav_bottom_fg.png" />
+				<li><a href="#">最新打折</a></li>
+					<img src="imgaes/nav_bottom_fg.png" />
+				<li><a href="#">潮流专题</a></li>
+					<img src="imgaes/nav_bottom_fg.png" />
+				<li><a href="#">品牌一览</a></li>
+					
+			</ul>
+		</div>
+		<canvas></canvas>
+		<div id="container">
+			<ul class="imgs">
+				<li style="display: block;"><img src="imgaes/1.jpg"/></li>
+				<li><img src="imgaes/2.jpg"/></li>
+				<li><img src="imgaes/3.jpg"/></li>
+				<li><img src="imgaes/4.jpg"/></li>
+				<li><img src="imgaes/5.jpg"/></li>
+				<li><img src="imgaes/6.jpg"/></li>
+				<li><img src="imgaes/7.jpg"/></li>
+			</ul>
+			<!--小圆点 -->
+			<div class="pages">
+				<i class="current"></i>
+				<i></i>
+				<i></i>
+				<i></i>
+				<i></i>
+				<i></i>
+				<i></i>
+			</div>
+			<!--向前 -->
+			<div class="prev">&lt;</div>
+			<!--小圆点 -->
+			<div class="next">&gt;</div>
+		</div>
+		
+		
+		
+		
+	</div>
+	<footer></footer>
+</body>
+</html>
